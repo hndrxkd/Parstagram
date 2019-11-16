@@ -23,6 +23,6 @@ The following **bonus** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='https://imgur.com/k94Tl3J.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://imgur.com/AvIPdjV.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 This one needs a lot of work still but this is a very rough idea of how instagram works.
