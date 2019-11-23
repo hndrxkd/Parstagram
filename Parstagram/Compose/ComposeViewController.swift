@@ -10,7 +10,7 @@ import UIKit
 import AlamofireImage
 import Parse
 
-class ComposeViewController: UIViewController , UIImagePickerControllerDelegate , UINavigationControllerDelegate{
+class ComposeViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var commentField: UITextField!
@@ -20,12 +20,15 @@ class ComposeViewController: UIViewController , UIImagePickerControllerDelegate 
         // Do any additional setup after loading the view.
     }
     
+    @IBAction func onCancelButton(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     @IBAction func onSubmitButton(_ sender: Any) {
         let post = PFObject(className: "Posts")
         
         post["author"] = PFUser.current()
         post["caption"] = commentField.text!
-        
         
         let imageData = imageView.image!.pngData()
         let file = PFFileObject(data: imageData!)
@@ -33,11 +36,11 @@ class ComposeViewController: UIViewController , UIImagePickerControllerDelegate 
         post["image"] = file
         
         post.saveInBackground { (success, Error) in
-            if(success){
+            if(success) {
                 print("Success")
                 self.dismiss(animated: true, completion: nil)
-            }else{
-                print("Error: \(Error)")
+            } else {
+                print("Error: \(Error as Optional)")
             }
         }
     }
@@ -47,20 +50,20 @@ class ComposeViewController: UIViewController , UIImagePickerControllerDelegate 
         picker.delegate = self
         picker.allowsEditing = true
         
-        if UIImagePickerController.isSourceTypeAvailable(.camera){
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
             picker.sourceType = .camera
-        }else{
+        } else {
             picker.sourceType = .photoLibrary
         }
         
-        present(picker , animated: true , completion: nil)
+        present(picker, animated: true, completion: nil)
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         let image = info[.editedImage] as! UIImage
         
         let size = CGSize(width: 300, height: 300)
-        let scaledImage = image.af_imageScaled(to: size)
+        let scaledImage = image.af_imageAspectScaled(toFill: size)
         
         imageView.image = scaledImage
         
@@ -68,14 +71,6 @@ class ComposeViewController: UIViewController , UIImagePickerControllerDelegate 
         
     }
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+    
+    
 }
